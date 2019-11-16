@@ -1,1 +1,3 @@
-import java.nio.file.Files
+import example.Util
+
+Util.increase(12)

@@ -1,6 +1,5 @@
 package example
 
-class Example extends lib.Lib
-
-
-
+object Util {
+  def increase(n: Int): Int = n + 6
+}
