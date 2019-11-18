@@ -1,3 +1,2 @@
-import example.Util
-
-Util.increase(12)
+val message = "Hello world!"
+println(message)

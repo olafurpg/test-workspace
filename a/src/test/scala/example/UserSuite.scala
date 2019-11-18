@@ -1,21 +1,14 @@
 package example
 
 import org.junit.Test
+import org.scalatest.FunSuite
 
 
-class UserSuite {
+case class User(name: String)
 
-  @Test
-  def susan(): Unit= {
-    val user = User("Susan")
-    println(user)
-    assert(user.name.startsWith("Susan"))
-  }
+class UserSuite extends FunSuite {
 
-  @Test
-  def john(): Unit = {
-    val user = User("John")
-    println(user)
-    assert(user.name.startsWith("John"))
-  }
+  test("john2") { ??? }
+  test("susan2") { println("susan") }
+
 }

@@ -1,5 +1,7 @@
 package example
 
-object Util {
-  def increase(n: Int): Int = n + 6
+import scala.meta.internal.io.PathIO
+
+object Util extends App {
+  pprint.log(PathIO.workingDirectory)
 }
