@@ -1,14 +1,39 @@
 package example
 
-import org.junit.Test
-import org.scalatest.FunSuite
+import utest._
 
+object Test {
+  def helloWorld(): Unit = {
+    System.out.println("Hello world!")
+  }
+}
 
-case class User(name: String)
+class MUnitSuite extends munit.FunSuite {
+  test("hello-world") {
+    Test.helloWorld()
+  }
+}
 
-class UserSuite extends FunSuite {
+object UtestSuite extends TestSuite {
+  def sleep() = Thread.sleep(100)
+  override val tests = utest.Tests {
+    test("hello-world") {
+      Test.helloWorld()
+    }
+  }
+}
 
-  test("john2") { ??? }
-  test("susan2") { println("susan") }
+class JUnitSuite {
+  @org.junit.Test
+  def helloWorld(): Unit = {
+    Test.helloWorld()
+  }
+}
+
+class ScalatestSuite extends org.scalatest.funsuite.AnyFunSuite {
+
+  test("hello-world") {
+    Test.helloWorld()
+  }
 
 }

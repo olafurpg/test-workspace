@@ -1,6 +1,5 @@
 package cross
 
-object Main {
-    val x: Int = 2
+object Cross {
+  val x: Int = 2
 }
-

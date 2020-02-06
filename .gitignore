@@ -37,3 +37,4 @@ repos.tar.gz*
 .settings
 .cache*
 .project
+twitter4j.properties
