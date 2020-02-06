@@ -1,11 +1,12 @@
 inThisBuild(
   Vector(
-    scalaVersion := "2.12.10"
+    scalaVersion := "2.13.1"
   )
 )
 
 lazy val a = project
   .settings(
+    scalaVersion := "2.13.1",
     addCompilerPlugin(
       "org.scalameta" % "semanticdb-scalac" % "4.2.5" cross CrossVersion.full
     ),
@@ -16,9 +17,9 @@ lazy val a = project
     resolvers += Resolver.bintrayRepo("cibotech", "public"),
     libraryDependencies ++= List(
       "com.swoval" % "file-tree-views" % "2.1.3",
-      "com.cibo" %% "evilplot" % "0.6.3",
       "org.scalatest" %% "scalatest" % "3.1.0" % Test,
       "org.scalameta" %% "munit" % "0.4.3" % Test,
+      "org.scalameta" %% "mdoc" % "2.1.1",
       "com.lihaoyi" %% "utest" % "0.7.1" % Test,
       "com.novocode" % "junit-interface" % "0.11" % Test,
       "org.scalameta" % "semanticdb-scalac-core" % "4.2.5" cross CrossVersion.full,
