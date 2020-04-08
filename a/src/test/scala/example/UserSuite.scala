@@ -3,8 +3,8 @@ package example
 import utest._
 
 object Test {
-  def helloWorld(): Unit = {
-    System.out.println("Hello world!")
+  def helloWorld(): String = {
+    "Hello world!"
   }
 }
 
@@ -26,6 +26,11 @@ object UtestSuite extends TestSuite {
 class JUnitSuite {
   @org.junit.Test
   def helloWorld(): Unit = {
+    pprint.log(Foo(1, "", Nil))
+    pprint.log(Foo(1, "", Nil))
+    pprint.log(Foo(1, "", Nil))
+    println(Util.bar)
+    println(Util.bar)
     Test.helloWorld()
   }
 }

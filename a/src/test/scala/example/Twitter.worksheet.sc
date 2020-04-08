@@ -1,29 +1,40 @@
+import example.Test
 import twitter4j.OEmbedRequest
+import scala.collection.JavaConverters._
 import twitter4j.Query
 import twitter4j.TwitterFactory
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.html.HtmlRenderer
-import scala.collection.JavaConverters._
 val markdown =
   """
+# Hello world!
 
-# Welcome!
+Bullets!
 
-This is my blog.
-
-* Bullet lists!
-* Bullet lists!!
+* Hello
+* Goodbye
 
 TWITTER:https://twitter.com/jack/status/969234275420655616
 """
 
-val id = ".*/(\\d+)$".r
-def getId(url: String): Long = url match {
-  case id(n) => n.toLong
-  case _     => throw new IllegalArgumentException(url)
+def renderHtml(markdown: String): String = {
+  val node = Parser.builder().build().parse(markdown)
+  val head = """<head><meta charset="UTF-8"></head>"""
+  val body = HtmlRenderer.builder().build().render(node)
+  head + body
 }
 
-def embedTweet(url: String): String = {
+val twitter = TwitterFactory.getSingleton
+
+twitter.search(new Query("London Twitter")).getTweets().asScala.map(_.getText())
+
+def getId(url: String): Long = {
+  val urlID = ".*/(\\d+)$".r
+  val urlID(n) = url
+  n.toLong
+}
+
+def embedHtml(url: String): String = {
   twitter
     .getOEmbed(new OEmbedRequest(getId(url), url))
     .getHtml()
@@ -31,36 +42,30 @@ def embedTweet(url: String): String = {
     .next()
 }
 
-def processMarkdown(markdown: String): String =
+def processMarkdown(markdown: String): String = {
   markdown.linesIterator
     .map {
-      case s"TWITTER:$url" => embedTweet(url)
+      case s"TWITTER:$url" => embedHtml(url)
       case line            => line
     }
     .mkString("\n")
-
-def renderHtml(markdown: String): String = {
-  val processed = processMarkdown(markdown)
-  val parsed = Parser.builder().build().parse(processed)
-  val body = HtmlRenderer.builder().build().render(parsed)
-  val head = """<head><meta charset="UTF-8"></head>"""
-  head + body
 }
 
-val twitter = TwitterFactory.getSingleton()
+val url = "https://twitter.com/jack/status/969234275420655616"
 
-val in = os.pwd / "in"
-val out = os.pwd / "out"
+// twitter.get
+// processMarkdown(markdown)
 
-os.list(in)
+os.list(os.pwd / "in")
   .filter(_.ext == "md")
   .map { file =>
-    val markdown = os.read(file)
-    val html = renderHtml(markdown)
+    val text = os.read(file)
+    val processed = processMarkdown(text)
+    val html = renderHtml(processed)
     val filename = file.baseName + ".html"
-    val target = out / filename
-    os.write.over(target, html, createFolders = true)
-    target -> html
+    val target = os.pwd / "out" / filename
+    os.write.over(target, html)
+    file -> processed
   }
 
-val url = "https://twitter.com/jack/status/969234275420655616"
+Test.helloWorld
